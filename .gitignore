@@ -45,3 +45,7 @@ app.*.map.json
 /android/app/release
 # File cấu hình môi trường
 env/*.env
+
+# File sinh tự động, không đẩy lên git
+.metadata
+pubspec.lock

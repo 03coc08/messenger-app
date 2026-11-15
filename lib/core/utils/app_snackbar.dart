@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:messenger_app/theme/app_colors.dart';
+
+/// Các loại thông báo.
+enum SnackBarType { success, error, warning, info }
+
+/// SnackBar dùng chung cho toàn app.
+/// Gọi ở bất cứ đâu, không cần context: AppSnackBar.error('...').
+class AppSnackBar {
+  /// Gắn key này vào MaterialApp để gọi được SnackBar từ mọi nơi.
+  static final messengerKey = GlobalKey<ScaffoldMessengerState>();
+
+  static void success(String message) => show(message, SnackBarType.success);
+  static void error(String message) => show(message, SnackBarType.error);
+  static void warning(String message) => show(message, SnackBarType.warning);
+  static void info(String message) => show(message, SnackBarType.info);
+
+  static void show(String message, SnackBarType type) {
+    final messenger = messengerKey.currentState;
+    if (messenger == null) return;
+
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(_icon(type), color: AppColors.white),
+              const SizedBox(width: 10),
+              Expanded(child: Text(message)),
+            ],
+          ),
+          backgroundColor: _color(type),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+  }
+
+  static Color _color(SnackBarType type) {
+    switch (type) {
+      case SnackBarType.success:
+        return AppColors.online;
+      case SnackBarType.error:
+        return AppColors.danger;
+      case SnackBarType.warning:
+        return AppColors.warning;
+      case SnackBarType.info:
+        return AppColors.gray700;
+    }
+  }
+
+  static IconData _icon(SnackBarType type) {
+    switch (type) {
+      case SnackBarType.success:
+        return Icons.check_circle;
+      case SnackBarType.error:
+        return Icons.error;
+      case SnackBarType.warning:
+        return Icons.warning;
+      case SnackBarType.info:
+        return Icons.info;
+    }
+  }
+}

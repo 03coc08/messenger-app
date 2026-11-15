@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/widgets/app_text_field.dart';
 
 class ChatDetailScreen extends StatelessWidget {
   const ChatDetailScreen({
@@ -17,10 +19,10 @@ class ChatDetailScreen extends StatelessWidget {
     return Theme(
       data: ThemeData.dark(useMaterial3: true),
       child: Scaffold(
-        backgroundColor: const Color(0xFF0B0B0D),
+        backgroundColor: AppColors.darkBackground,
         appBar: AppBar(
-          backgroundColor: const Color(0xFF0B0B0D),
-          surfaceTintColor: Colors.transparent,
+          backgroundColor: AppColors.darkBackground,
+          surfaceTintColor: AppColors.transparent,
           titleSpacing: 0,
           leading: IconButton(
             tooltip: 'Back',
@@ -47,7 +49,7 @@ class ChatDetailScreen extends StatelessWidget {
                     Text(
                       isOnline ? 'Active now' : 'Messenger',
                       style: const TextStyle(
-                        color: Color(0xFF9A9AA1),
+                        color: AppColors.darkMuted,
                         fontSize: 11,
                       ),
                     ),
@@ -60,14 +62,14 @@ class ChatDetailScreen extends StatelessWidget {
             IconButton(
               tooltip: 'Audio call',
               onPressed: () {},
-              icon: const Icon(Icons.call_rounded, color: Color(0xFF0A7CFF)),
+              icon: const Icon(Icons.call_rounded, color: AppColors.primary),
             ),
             IconButton(
               tooltip: 'Video call',
               onPressed: () {},
               icon: const Icon(
                 Icons.videocam_rounded,
-                color: Color(0xFF0A7CFF),
+                color: AppColors.primary,
               ),
             ),
           ],
@@ -85,7 +87,7 @@ class ChatDetailScreen extends StatelessWidget {
                   const Text(
                     'Today, 9:32 PM',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0xFF9A9AA1), fontSize: 11),
+                    style: TextStyle(color: AppColors.darkMuted, fontSize: 11),
                   ),
                   const SizedBox(height: 10),
                   const Align(
@@ -117,7 +119,7 @@ class ChatDetailScreen extends StatelessWidget {
         const SizedBox(height: 4),
         const Text(
           "You're friends on Facebook",
-          style: TextStyle(color: Color(0xFF9A9AA1), fontSize: 13),
+          style: TextStyle(color: AppColors.darkMuted, fontSize: 13),
         ),
         const SizedBox(height: 16),
         SizedBox(
@@ -146,7 +148,7 @@ class ChatDetailScreen extends StatelessWidget {
         Text(
           'Say hi to your Facebook friend, $name.',
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Color(0xFF9A9AA1), fontSize: 12),
+          style: const TextStyle(color: AppColors.darkMuted, fontSize: 12),
         ),
       ],
     );
@@ -172,7 +174,7 @@ class _ReceivedMessage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9),
               decoration: BoxDecoration(
-                color: const Color(0xFF2B2C30),
+                color: AppColors.darkSurface,
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Text(text),
@@ -204,22 +206,19 @@ class _MessageComposer extends StatelessWidget {
                   const _ComposerButton(icon: Icons.image_rounded),
                 ],
                 Expanded(
-                  child: TextField(
+                  child: AppTextField(
                     minLines: 1,
                     maxLines: 4,
-                    decoration: InputDecoration(
-                      hintText: 'Message',
-                      filled: true,
-                      fillColor: const Color(0xFF202124),
-                      contentPadding: const EdgeInsets.fromLTRB(14, 10, 4, 10),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none,
-                      ),
-                      suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.sentiment_satisfied_alt_rounded),
-                      ),
+                    hint: 'Message',
+                    fillColor: AppColors.darkSurface,
+                    contentPadding: const EdgeInsets.fromLTRB(14, 10, 4, 10),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide.none,
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.sentiment_satisfied_alt_rounded),
                     ),
                   ),
                 ),
@@ -243,7 +242,7 @@ class _ComposerButton extends StatelessWidget {
     return IconButton(
       onPressed: () {},
       visualDensity: VisualDensity.compact,
-      color: const Color(0xFF0A7CFF),
+      color: AppColors.primary,
       icon: Icon(icon, size: 22),
     );
   }

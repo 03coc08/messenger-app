@@ -35,7 +35,7 @@ class _MessengerScreenState extends State<MessengerScreen> {
         bottomNavigationBar: NavigationBar(
           height: 70,
           backgroundColor: AppColors.darkNavigation,
-          indicatorColor: const Color(0x332D88FF),
+          indicatorColor: AppColors.primary.withValues(alpha: 0.2),
           selectedIndex: _currentIndex,
           onDestinationSelected: (index) {
             setState(() => _currentIndex = index);

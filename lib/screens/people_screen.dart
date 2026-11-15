@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/widgets/app_text_field.dart';
 
 class PeopleScreen extends StatelessWidget {
   const PeopleScreen({super.key});
@@ -33,7 +35,7 @@ class PeopleScreen extends StatelessWidget {
                 IconButton.filled(
                   onPressed: () {},
                   style: IconButton.styleFrom(
-                    backgroundColor: const Color(0xFF202124),
+                    backgroundColor: AppColors.darkSurface,
                   ),
                   icon: const Icon(Icons.person_add_alt_1_rounded),
                 ),
@@ -41,16 +43,9 @@ class PeopleScreen extends StatelessWidget {
             ),
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-          sliver: SliverToBoxAdapter(
-            child: TextField(
-              decoration: const InputDecoration(
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search_rounded),
-              ),
-            ),
-          ),
+        const SliverPadding(
+          padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
+          sliver: SliverToBoxAdapter(child: AppTextField(isSearch: true)),
         ),
         const SliverPadding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -73,14 +68,14 @@ class PeopleScreen extends StatelessWidget {
                 ),
                 subtitle: Text(
                   person.status,
-                  style: const TextStyle(color: Color(0xFF9A9AA1)),
+                  style: const TextStyle(color: AppColors.darkMuted),
                 ),
                 trailing: IconButton(
                   tooltip: 'Say hello',
                   onPressed: () {},
                   icon: const Icon(
                     Icons.waving_hand_rounded,
-                    color: Color(0xFFFFC83D),
+                    color: AppColors.warning,
                   ),
                 ),
               );
@@ -101,7 +96,7 @@ class _StoryAction extends StatelessWidget {
       children: [
         const CircleAvatar(
           radius: 24,
-          backgroundColor: Color(0xFF202124),
+          backgroundColor: AppColors.darkSurface,
           child: Icon(Icons.add_rounded),
         ),
         const SizedBox(width: 12),
@@ -112,7 +107,7 @@ class _StoryAction extends StatelessWidget {
             SizedBox(height: 2),
             Text(
               'Share a photo or write something',
-              style: TextStyle(color: Color(0xFF9A9AA1), fontSize: 13),
+              style: TextStyle(color: AppColors.darkMuted, fontSize: 13),
             ),
           ],
         ),
@@ -141,9 +136,9 @@ class _PersonAvatar extends StatelessWidget {
                 width: 14,
                 height: 14,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF31A24C),
+                  color: AppColors.online,
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFF0B0B0D), width: 2),
+                  border: Border.all(color: AppColors.darkBackground, width: 2),
                 ),
               ),
             ),

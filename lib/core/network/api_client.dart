@@ -70,8 +70,8 @@ class ApiClient {
       uri = Uri.parse(
         '$_baseUrl$path',
       ).replace(queryParameters: query?.isEmpty ?? true ? null : query);
-    } on FormatException catch (e) {
-      throw ApiException('Địa chỉ máy chủ không hợp lệ: ${e.message}');
+    } on FormatException {
+      throw ApiException.fromCode(ApiErrorCode.invalidUrl);
     }
 
     final request = http.Request(method, uri)

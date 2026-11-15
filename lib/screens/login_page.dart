@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/core/network/api_exception.dart';
+import 'package:messenger_app/theme/app_colors.dart';
+
 import 'package:messenger_app/services/mattermost_api.dart';
 import 'package:messenger_app/screens/forgot_password_page.dart';
 import 'package:messenger_app/screens/messenger_screen.dart';
 import 'package:messenger_app/screens/signup_page.dart';
+import 'package:messenger_app/core/utils/app_snackbar.dart';
+import 'package:messenger_app/core/utils/validators.dart';
+import 'package:messenger_app/core/network/api_error_handler.dart';
+import 'package:messenger_app/widgets/app_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,12 +37,12 @@ class _LoginPageState extends State<LoginPage> {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
 
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Hãy nhập email và mật khẩu.')),
-      );
+    final error = Validators.login(email: email, password: password);
+    if (error != null) {
+      AppSnackBar.error(error);
       return;
     }
+
     setState(() => _isLoggingIn = true);
     try {
       final session = await _api.login(email, password);
@@ -48,11 +53,8 @@ class _LoginPageState extends State<LoginPage> {
           builder: (_) => MessengerScreen(session: session, api: _api),
         ),
       );
-    } on ApiException catch (e) {
-      _showError(e.message);
     } catch (e, stack) {
-      debugPrint('Lỗi khác: $e\n$stack');
-      _showError('Lỗi không xác định: $e');
+      AppSnackBar.error(handleRequestError(e, stack).message);
     } finally {
       if (mounted) setState(() => _isLoggingIn = false);
     }
@@ -61,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F8),
+      backgroundColor: AppColors.gray50,
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: SafeArea(
@@ -77,11 +79,11 @@ class _LoginPageState extends State<LoginPage> {
                       height: 35,
                       width: 35,
                       decoration: const BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.white,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black12,
+                            color: AppColors.black12,
                             blurRadius: 5,
                             offset: Offset(2, 2),
                           ),
@@ -89,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: const Icon(
                         Icons.arrow_back_ios_new,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                     ),
                   ],
@@ -101,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Log In',
                       style: TextStyle(
                         fontSize: 25,
-                        color: Color(0xFF010F1C),
+                        color: AppColors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -109,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Enter your email and password to securely access your account and manage your services.',
                       style: TextStyle(
                         fontSize: 14,
-                        color: Color.fromARGB(255, 58, 58, 58),
+                        color: AppColors.gray700,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -121,47 +123,41 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       // nhập email
-                      TextField(
+                      AppTextField(
                         key: const Key('emailField'),
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          hintText: 'email Address ',
-                          prefixIcon: const Icon(
-                            Icons.email,
-                            color: Color(0xFF939393),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
+                        hint: 'email Address ',
+                        prefixIcon: const Icon(
+                          Icons.email,
+                          color: AppColors.gray600,
+                        ),
+                        fillColor: AppColors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       const SizedBox(height: 15),
                       // nhập passwword
-                      TextField(
+                      AppTextField(
                         key: const Key('passwordField'),
                         controller: _passwordController,
                         obscureText: true,
                         textInputAction: TextInputAction.done,
                         onSubmitted: (_) => _login(),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          hintText: 'Password',
-                          prefixIcon: const Icon(
-                            Icons.lock,
-                            color: Color(0xFF939393),
-                          ),
-                          suffixIcon: const Icon(
-                            Icons.visibility_off_outlined,
-                            color: Color(0xFF939393),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
+                        hint: 'Password',
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: AppColors.gray600,
+                        ),
+                        suffixIcon: const Icon(
+                          Icons.visibility_off_outlined,
+                          color: AppColors.gray600,
+                        ),
+                        fillColor: AppColors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                     ],
@@ -174,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                         Checkbox(value: false, onChanged: null),
                         Text(
                           'remember me',
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(color: AppColors.black),
                         ),
                       ],
                     ),
@@ -193,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             Text(
                               'forgot password',
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(color: AppColors.black),
                             ),
                             SizedBox(width: 10),
                           ],
@@ -209,8 +205,8 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     key: const Key('loginButton'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF3BB77E),
-                      foregroundColor: Colors.white,
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -231,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const Text(
                       'dont have an accout?',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(color: AppColors.black),
                     ),
                     TextButton(
                       onPressed: () {
@@ -245,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         'Sign Up Here',
                         style: TextStyle(
-                          color: Color(0xFF3BB77E),
+                          color: AppColors.primary,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -256,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 30),
                 const Column(
                   children: [
-                    Divider(color: Colors.black, thickness: 1),
+                    Divider(color: AppColors.black, thickness: 1),
                     SizedBox(height: 30),
                     Text('Or Continue With Accout'),
                   ],
@@ -287,26 +283,6 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  //
-  void _showError(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-          backgroundColor: Colors.red, // nền đỏ cho dễ nhận ra lỗi
-          behavior: SnackBarBehavior.floating, // nổi lên, bo góc
-          duration: const Duration(seconds: 5),
-          action: SnackBarAction(
-            label: 'Đóng',
-            textColor: Colors.white,
-            onPressed: () {},
-          ),
-        ),
-      );
-  }
 }
 
 class _SocialButton extends StatelessWidget {
@@ -321,9 +297,9 @@ class _SocialButton extends StatelessWidget {
       width: 35,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.white,
+        color: AppColors.white,
         boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 5, offset: Offset(1, 3)),
+          BoxShadow(color: AppColors.black12, blurRadius: 5, offset: Offset(1, 3)),
         ],
       ),
       child: Center(child: child),

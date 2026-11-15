@@ -9,10 +9,10 @@ abstract final class AppTheme {
         seedColor: AppColors.primary,
         brightness: Brightness.light,
       ),
-      scaffoldBackgroundColor: const Color(0xFFF6F7F9),
+      scaffoldBackgroundColor: AppColors.gray50,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.white,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 18,
           vertical: 17,
@@ -23,7 +23,7 @@ abstract final class AppTheme {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
-          borderSide: const BorderSide(color: Color(0xFFE6E9EF)),
+          borderSide: const BorderSide(color: AppColors.gray200),
         ),
       ),
     );

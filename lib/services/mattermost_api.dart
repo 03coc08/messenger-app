@@ -2,40 +2,25 @@ import '../core/config/env.dart';
 import '../core/network/api_client.dart';
 import '../core/network/api_exception.dart';
 import '../models/session.dart';
-import '../core/network/api_response_handler.dart';
 
 class MattermostApi {
   MattermostApi(this._client);
   final ApiClient _client;
 
   Future<Session> login(String loginId, String password) async {
-    final ApiResponse res;
-    try {
-      res = await _client.post(
-        '/api/v4/users/login',
-        body: {'login_id': loginId, 'password': password},
-      );
-    } on ApiException catch (e) {
-      // Ở màn đăng nhập, 401 nghĩa là sai tài khoản chứ không phải hết phiên.
-      if (e.statusCode == 401) {
-        throw ApiException(
-          'Email hoặc mật khẩu không chính xác.',
-          statusCode: 401,
-          data: e.data,
-        );
-      }
-      rethrow;
-    }
+    final res = await _client.post(
+      '/api/v4/users/login',
+      body: {'login_id': loginId, 'password': password},
+    );
 
     // Token nằm ở header, không nằm trong body.
     final token = res.headers['token'];
-    if (token == null || token.isEmpty) {
-      throw ApiException('Máy chủ không trả về token.');
-    }
-
     final user = res.data;
-    if (user is! Map<String, dynamic> || user['id'] is! String) {
-      throw ApiException('Máy chủ trả về dữ liệu không hợp lệ.');
+    if (token == null ||
+        token.isEmpty ||
+        user is! Map<String, dynamic> ||
+        user['id'] is! String) {
+      throw ApiException.fromCode(ApiErrorCode.invalidResponse);
     }
 
     _client.token = token; // lưu token cho các request sau

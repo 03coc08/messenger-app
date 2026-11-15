@@ -1,3 +1,5 @@
+import 'package:messenger_app/core/network/api_exception.dart';
+
 class Env {
   static const String appEnv = String.fromEnvironment(
     'APP_ENV',
@@ -10,9 +12,7 @@ class Env {
   /// Gọi ở main() để báo lỗi sớm nếu quên truyền file env
   static void validate() {
     if (baseUrl.isEmpty) {
-      throw StateError(
-        'Thiếu BASE_URL. Hãy chạy với --dart-define-from-file=env/dev.json',
-      );
+      throw ApiException.fromCode(ApiErrorCode.missingConfig);
     }
   }
 }

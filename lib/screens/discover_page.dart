@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/widgets/search_field.dart';
+import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/widgets/community_card.dart';
 
 class DiscoverPage extends StatelessWidget {
@@ -15,7 +16,7 @@ class DiscoverPage extends StatelessWidget {
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
         ),
         const SizedBox(height: 16),
-        const SearchField(hint: 'Search communities'),
+        const AppTextField(isSearch: true, hint: 'Search communities'),
         const SizedBox(height: 24),
         const Text(
           'Suggested',
@@ -26,7 +27,7 @@ class DiscoverPage extends StatelessWidget {
           title: 'Football fans',
           subtitle: 'News, highlights and conversations.',
           icon: Icons.sports_soccer_rounded,
-          color: const Color(0xFF27AE60),
+          color: AppColors.online,
           onTap: () {},
         ),
         const SizedBox(height: 12),
@@ -34,7 +35,7 @@ class DiscoverPage extends StatelessWidget {
           title: 'Flutter developers',
           subtitle: 'Share ideas and build beautiful apps.',
           icon: Icons.flutter_dash_rounded,
-          color: const Color(0xFF4A90E2),
+          color: AppColors.primaryLight,
           onTap: () {},
         ),
       ],

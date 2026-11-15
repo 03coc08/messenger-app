@@ -22,10 +22,16 @@ ApiResponse handleResponse(
     return ApiResponse(res.statusCode, data, res.headers);
   }
 
-  if (res.statusCode == 401) onUnauthorized?.call();
+  final code = _errorCode(res.statusCode, data);
+  if (code == ApiErrorCode.sessionExpired) onUnauthorized?.call();
 
+  // Mã đã biết thì dùng câu của mã; còn lại dùng câu suy ra từ response.
+  if (code != ApiErrorCode.http) {
+    throw ApiException.fromCode(code, statusCode: res.statusCode, data: data);
+  }
   throw ApiException(
     _errorMessage(res.statusCode, data, res.body),
+    code: ApiErrorCode.http,
     statusCode: res.statusCode,
     data: data,
   );
@@ -56,4 +62,20 @@ String _errorMessage(int code, dynamic data, String rawBody) {
     >= 500 => 'Máy chủ đang gặp lỗi (mã $code).',
     _ => 'Có lỗi xảy ra (mã $code).',
   };
+}
+
+/// Đổi response lỗi thành mã lỗi dùng chung.
+ApiErrorCode _errorCode(int statusCode, dynamic data) {
+  // Mattermost gửi kèm "id" cho biết chính xác loại lỗi.
+  final errorId = data is Map && data['id'] is String
+      ? data['id'] as String
+      : '';
+
+  if (errorId.contains('invalid_credentials')) {
+    return ApiErrorCode.invalidCredentials;
+  }
+  if (errorId.contains('session_expired') || statusCode == 401) {
+    return ApiErrorCode.sessionExpired;
+  }
+  return ApiErrorCode.http;
 }

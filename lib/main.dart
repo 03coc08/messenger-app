@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:messenger_app/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:messenger_app/core/config/env.dart';
 import 'package:messenger_app/screens/login_page.dart';
 import 'package:messenger_app/theme/app_theme.dart';
+import 'package:messenger_app/core/utils/app_snackbar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,10 +14,10 @@ void main() {
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
+      statusBarColor: AppColors.transparent,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.black,
+      systemNavigationBarColor: AppColors.black,
       systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Messenger',
       debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: AppSnackBar.messengerKey,
       theme: AppTheme.light,
       home: const LoginPage(),
     );

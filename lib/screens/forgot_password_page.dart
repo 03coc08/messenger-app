@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/widgets/app_text_field.dart';
+import 'package:messenger_app/core/utils/app_snackbar.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({super.key});
@@ -8,7 +11,7 @@ class ForgotPasswordPage extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent),
+      appBar: AppBar(backgroundColor: AppColors.transparent),
       body: SafeArea(
         top: false,
         child: Center(
@@ -24,7 +27,7 @@ class ForgotPasswordPage extends StatelessWidget {
                     const Icon(
                       Icons.lock_reset_rounded,
                       size: 68,
-                      color: Color(0xFF0A7CFF),
+                      color: AppColors.primary,
                     ),
                     const SizedBox(height: 20),
                     const Text(
@@ -39,15 +42,13 @@ class ForgotPasswordPage extends StatelessWidget {
                     const Text(
                       'Nhập email để nhận hướng dẫn đặt lại mật khẩu.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Color(0xFF667085), height: 1.5),
+                      style: TextStyle(color: AppColors.gray600, height: 1.5),
                     ),
                     const SizedBox(height: 28),
-                    TextFormField(
+                    AppTextField(
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
-                      ),
+                      label: 'Email',
+                      prefixIcon: const Icon(Icons.email_outlined),
                       validator: (value) => (value?.contains('@') ?? false)
                           ? null
                           : 'Vui lòng nhập email hợp lệ.',
@@ -60,16 +61,12 @@ class ForgotPasswordPage extends StatelessWidget {
                           if (!(formKey.currentState?.validate() ?? false)) {
                             return;
                           }
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Đã gửi hướng dẫn đặt lại mật khẩu.',
-                              ),
-                            ),
+                          AppSnackBar.success(
+                            'Đã gửi hướng dẫn đặt lại mật khẩu.',
                           );
                         },
                         style: FilledButton.styleFrom(
-                          backgroundColor: const Color(0xFF0A7CFF),
+                          backgroundColor: AppColors.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),

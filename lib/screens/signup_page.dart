@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/widgets/app_text_field.dart';
+import 'package:messenger_app/core/utils/app_snackbar.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -21,7 +24,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent),
+      appBar: AppBar(backgroundColor: AppColors.transparent),
       body: SafeArea(
         top: false,
         child: Center(
@@ -47,47 +50,39 @@ class _SignupPageState extends State<SignupPage> {
                     const Text(
                       'Đăng ký để bắt đầu trò chuyện với bạn bè.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Color(0xFF667085), height: 1.5),
+                      style: TextStyle(color: AppColors.gray600, height: 1.5),
                     ),
                     const SizedBox(height: 26),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Họ và tên',
-                        prefixIcon: Icon(Icons.person_outline_rounded),
-                      ),
+                    AppTextField(
+                      label: 'Họ và tên',
+                      prefixIcon: const Icon(Icons.person_outline_rounded),
                       validator: (value) => (value?.trim().isEmpty ?? true)
                           ? 'Vui lòng nhập họ tên.'
                           : null,
                     ),
                     const SizedBox(height: 14),
-                    TextFormField(
+                    AppTextField(
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
-                      ),
+                      label: 'Email',
+                      prefixIcon: const Icon(Icons.email_outlined),
                       validator: (value) => (value?.contains('@') ?? false)
                           ? null
                           : 'Vui lòng nhập email hợp lệ.',
                     ),
                     const SizedBox(height: 14),
-                    TextFormField(
+                    AppTextField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
-                      decoration: InputDecoration(
-                        labelText: 'Mật khẩu',
-                        prefixIcon: const Icon(Icons.lock_outline_rounded),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(
-                              () => _obscurePassword = !_obscurePassword,
-                            );
-                          },
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                          ),
+                      label: 'Mật khẩu',
+                      prefixIcon: const Icon(Icons.lock_outline_rounded),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() => _obscurePassword = !_obscurePassword);
+                        },
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
                         ),
                       ),
                       validator: (value) => (value?.length ?? 0) < 6
@@ -95,12 +90,10 @@ class _SignupPageState extends State<SignupPage> {
                           : null,
                     ),
                     const SizedBox(height: 14),
-                    TextFormField(
+                    AppTextField(
                       obscureText: _obscurePassword,
-                      decoration: const InputDecoration(
-                        labelText: 'Nhập lại mật khẩu',
-                        prefixIcon: Icon(Icons.lock_outline_rounded),
-                      ),
+                      label: 'Nhập lại mật khẩu',
+                      prefixIcon: const Icon(Icons.lock_outline_rounded),
                       validator: (value) => value == _passwordController.text
                           ? null
                           : 'Mật khẩu nhập lại không khớp.',
@@ -113,15 +106,12 @@ class _SignupPageState extends State<SignupPage> {
                           if (!(_formKey.currentState?.validate() ?? false)) {
                             return;
                           }
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Tạo tài khoản thành công.'),
-                            ),
-                          );
+                          AppSnackBar.success('Tạo tài khoản thành công.');
+
                           Navigator.pop(context);
                         },
                         style: FilledButton.styleFrom(
-                          backgroundColor: const Color(0xFF0A7CFF),
+                          backgroundColor: AppColors.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),

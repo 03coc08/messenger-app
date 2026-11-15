@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:messenger_app/theme/app_colors.dart';
 import 'package:messenger_app/widgets/round_icon_button.dart';
-import 'package:messenger_app/widgets/search_field.dart';
+import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/widgets/user_avatar.dart';
 import 'package:messenger_app/models/chat_item.dart';
 import 'package:messenger_app/models/story.dart';
@@ -65,7 +65,7 @@ class ChatsPage extends StatelessWidget {
         ),
         const SliverPadding(
           padding: EdgeInsets.fromLTRB(16, 4, 16, 12),
-          sliver: SliverToBoxAdapter(child: SearchField()),
+          sliver: SliverToBoxAdapter(child: AppTextField(isSearch: true)),
         ),
         SliverToBoxAdapter(child: _buildStories()),
         const SliverToBoxAdapter(child: SizedBox(height: 12)),
@@ -100,7 +100,7 @@ class ChatsPage extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: chat.isUnread ? Colors.white70 : AppColors.darkMuted,
+                    color: chat.isUnread ? AppColors.white70 : AppColors.darkMuted,
                   ),
                 ),
                 trailing: chat.isUnread

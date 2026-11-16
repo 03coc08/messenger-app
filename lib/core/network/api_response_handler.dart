@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import 'api_error_code.dart';
 import 'api_exception.dart';
 
 class ApiResponse {
@@ -22,19 +23,12 @@ ApiResponse handleResponse(
     return ApiResponse(res.statusCode, data, res.headers);
   }
 
-  final code = _errorCode(res.statusCode, data);
-  if (code == ApiErrorCode.sessionExpired) onUnauthorized?.call();
-
-  // Mã đã biết thì dùng câu của mã; còn lại dùng câu suy ra từ response.
-  if (code != ApiErrorCode.http) {
-    throw ApiException.fromCode(code, statusCode: res.statusCode, data: data);
+  final code = _errorCode(res.statusCode, data, res.body);
+  if (code == ApiErrorCode.sessionExpired) {
+    onUnauthorized?.call();
   }
-  throw ApiException(
-    _errorMessage(res.statusCode, data, res.body),
-    code: ApiErrorCode.http,
-    statusCode: res.statusCode,
-    data: data,
-  );
+
+  throw ApiException.fromCode(code, statusCode: res.statusCode, data: data);
 }
 
 dynamic _decode(String body) {
@@ -46,36 +40,35 @@ dynamic _decode(String body) {
   }
 }
 
-String _errorMessage(int code, dynamic data, String rawBody) {
-  if (data is Map && data['message'] is String) {
-    return data['message'];
-  }
+ApiErrorCode _errorCode(int statusCode, dynamic data, String rawBody) {
   if (rawBody.trimLeft().startsWith('<')) {
-    return 'Máy chủ trả về HTML thay vì JSON (mã $code). '
-        'Kiểm tra lại BASE_URL hoặc ngrok.';
+    return ApiErrorCode.htmlResponse;
   }
-  return switch (code) {
-    400 => 'Yêu cầu không hợp lệ.',
-    401 => 'Phiên đăng nhập hết hạn hoặc sai thông tin.',
-    403 => 'Bạn không có quyền thực hiện thao tác này.',
-    404 => 'Không tìm thấy tài nguyên.',
-    >= 500 => 'Máy chủ đang gặp lỗi (mã $code).',
-    _ => 'Có lỗi xảy ra (mã $code).',
-  };
-}
 
-/// Đổi response lỗi thành mã lỗi dùng chung.
-ApiErrorCode _errorCode(int statusCode, dynamic data) {
-  // Mattermost gửi kèm "id" cho biết chính xác loại lỗi.
-  final errorId = data is Map && data['id'] is String
-      ? data['id'] as String
-      : '';
+  // Mattermost trả về "id" để biết loại lỗi
+  String errorId = '';
+  if (data is Map && data['id'] is String) {
+    errorId = data['id'];
+  }
 
   if (errorId.contains('invalid_credentials')) {
     return ApiErrorCode.invalidCredentials;
   }
   if (errorId.contains('session_expired') || statusCode == 401) {
     return ApiErrorCode.sessionExpired;
+  }
+
+  if (statusCode == 400) {
+    return ApiErrorCode.badRequest;
+  }
+  if (statusCode == 403) {
+    return ApiErrorCode.forbidden;
+  }
+  if (statusCode == 404) {
+    return ApiErrorCode.notFound;
+  }
+  if (statusCode >= 500) {
+    return ApiErrorCode.serverError;
   }
   return ApiErrorCode.http;
 }

@@ -1,5 +1,7 @@
+import 'package:messenger_app/core/network/api_error_code.dart';
 import 'package:messenger_app/core/network/api_exception.dart';
 
+// Các giá trị này lấy từ file env/dev.env khi chạy app
 class Env {
   static const String appEnv = String.fromEnvironment(
     'APP_ENV',
@@ -9,7 +11,6 @@ class Env {
 
   static bool get isProd => appEnv == 'prod';
 
-  /// Gọi ở main() để báo lỗi sớm nếu quên truyền file env
   static void validate() {
     if (baseUrl.isEmpty) {
       throw ApiException.fromCode(ApiErrorCode.missingConfig);

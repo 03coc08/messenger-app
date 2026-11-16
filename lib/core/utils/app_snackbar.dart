@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:messenger_app/core/utils/snack_bar_type.dart';
 import 'package:messenger_app/theme/app_colors.dart';
 
-/// Các loại thông báo.
-enum SnackBarType { success, error, warning, info }
-
-/// SnackBar dùng chung cho toàn app.
-/// Gọi ở bất cứ đâu, không cần context: AppSnackBar.error('...').
+// Hiện SnackBar ở đâu cũng được, không cần context
+// Ví dụ: AppSnackBar.error('Có lỗi xảy ra')
 class AppSnackBar {
-  /// Gắn key này vào MaterialApp để gọi được SnackBar từ mọi nơi.
+  // Key này đã gắn vào MaterialApp trong main.dart
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
 
   static void success(String message) => show(message, SnackBarType.success);
@@ -19,22 +17,21 @@ class AppSnackBar {
     final messenger = messengerKey.currentState;
     if (messenger == null) return;
 
-    messenger
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              Icon(_icon(type), color: AppColors.white),
-              const SizedBox(width: 10),
-              Expanded(child: Text(message)),
-            ],
-          ),
-          backgroundColor: _color(type),
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 4),
+    messenger.hideCurrentSnackBar();
+    messenger.showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(_icon(type), color: AppColors.white),
+            const SizedBox(width: 10),
+            Expanded(child: Text(message)),
+          ],
         ),
-      );
+        backgroundColor: _color(type),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 4),
+      ),
+    );
   }
 
   static Color _color(SnackBarType type) {

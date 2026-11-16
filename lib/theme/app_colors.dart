@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Bảng màu lấy từ file Figma "Facebook Messenger UI Screens",
-/// quét bằng plugin Styles & Variables Organizer.
-/// Mã màu chép nguyên từ kết quả quét; không tự đặt màu mới ở đây.
+// Màu lấy từ file Figma của app
 abstract final class AppColors {
   // ---------- Màu thương hiệu ----------
   static const primary = Color(0xFF0584FE);
@@ -12,8 +10,7 @@ abstract final class AppColors {
   static const online = Color(0xFF5AD439);
   static const danger = Color(0xFFFE294D);
 
-  /// Thiết kế Figma không có màu cảnh báo; đây là màu duy nhất nằm ngoài
-  /// kết quả quét, giữ từ giao diện cũ.
+  // Figma không có màu cảnh báo nên tự thêm
   static const warning = Color(0xFFFFC83D);
 
   // ---------- Trắng, đen và các mức xám (sáng -> tối) ----------
@@ -45,8 +42,7 @@ abstract final class AppColors {
   static const black35 = Color(0x59000000);
   static const black50 = Color(0x80000000);
 
-  // ---------- Vai trò trong giao diện tối ----------
-  // Tên giữ nguyên để code hiện tại dùng tiếp; giá trị đã đổi sang màu Figma.
+  // ---------- Màu cho giao diện tối ----------
   static const darkBackground = black;
   static const darkSurface = gray800;
   static const darkNavigation = gray950;

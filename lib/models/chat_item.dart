@@ -1,4 +1,11 @@
 class ChatItem {
+  final String name;
+  final String message;
+  final String time;
+  final String avatar;
+  final bool isOnline;
+  final bool isUnread;
+
   const ChatItem({
     required this.name,
     required this.message,
@@ -7,11 +14,4 @@ class ChatItem {
     this.isOnline = false,
     this.isUnread = false,
   });
-
-  final String name;
-  final String message;
-  final String time;
-  final String avatar;
-  final bool isOnline;
-  final bool isUnread;
 }

@@ -9,7 +9,7 @@ class Validators {
     return null;
   }
 
-  /// Kiểm tra cả form đăng nhập, trả về lỗi đầu tiên gặp phải.
+  // Kiểm tra form đăng nhập, sai chỗ nào thì trả về lỗi chỗ đó trước
   static String? login({required String email, required String password}) {
     return Validators.email(email) ?? Validators.password(password);
   }

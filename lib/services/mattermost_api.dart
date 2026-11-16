@@ -1,10 +1,12 @@
 import '../core/config/env.dart';
 import '../core/network/api_client.dart';
+import '../core/network/api_error_code.dart';
 import '../core/network/api_exception.dart';
 import '../models/session.dart';
 
 class MattermostApi {
   MattermostApi(this._client);
+
   final ApiClient _client;
 
   Future<Session> login(String loginId, String password) async {
@@ -13,18 +15,19 @@ class MattermostApi {
       body: {'login_id': loginId, 'password': password},
     );
 
-    // Token nằm ở header, không nằm trong body.
+    // Mattermost trả token trong header chứ không nằm trong body
     final token = res.headers['token'];
-    final user = res.data;
-    if (token == null ||
-        token.isEmpty ||
-        user is! Map<String, dynamic> ||
-        user['id'] is! String) {
+    if (token == null || token.isEmpty) {
       throw ApiException.fromCode(ApiErrorCode.invalidResponse);
     }
 
-    _client.token = token; // lưu token cho các request sau
-    return Session(userId: user['id'] as String, token: token);
+    final user = res.data;
+    if (user is! Map || user['id'] is! String) {
+      throw ApiException.fromCode(ApiErrorCode.invalidResponse);
+    }
+
+    _client.token = token;
+    return Session(userId: user['id'], token: token);
   }
 
   Future<Map<String, dynamic>> getMe() async {
@@ -32,9 +35,11 @@ class MattermostApi {
     return res.data as Map<String, dynamic>;
   }
 
-  void logout() => _client.token = null;
+  void logout() {
+    _client.token = null;
+  }
 }
 
-// Dùng chung cho toàn app
+// Cả app dùng chung 1 client để giữ token đăng nhập
 final apiClient = ApiClient(baseUrl: Env.baseUrl);
 final mattermostApi = MattermostApi(apiClient);

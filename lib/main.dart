@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
 import 'package:flutter/services.dart';
 import 'package:messenger_app/core/config/env.dart';
-import 'package:messenger_app/screens/login_page.dart';
-import 'package:messenger_app/theme/app_theme.dart';
 import 'package:messenger_app/core/utils/app_snackbar.dart';
+import 'package:messenger_app/screens/login_page.dart';
+import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Env.validate(); // báo lỗi sớm nếu quên truyền file env
+
+  // Quên truyền file env thì báo lỗi luôn
+  Env.validate();
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: AppColors.transparent,

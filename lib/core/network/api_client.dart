@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
 import 'api_error_code.dart';
 import 'api_error_handler.dart';
 import 'api_exception.dart';
@@ -14,7 +12,10 @@ class ApiClient {
     required String baseUrl,
     http.Client? client,
     this.timeout = const Duration(seconds: 15),
-  }) : _baseUrl = baseUrl.trim().replaceAll(RegExp(r'/+$'), ''), // bỏ dấu / ở cuối
+  }) : _baseUrl = baseUrl.trim().replaceAll(
+         RegExp(r'/+$'),
+         '',
+       ), // bỏ dấu / ở cuối
        _client = client ?? http.Client();
 
   final String _baseUrl;

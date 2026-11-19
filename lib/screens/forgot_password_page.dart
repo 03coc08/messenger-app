@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/core/utils/app_snackbar.dart';
 
@@ -33,10 +34,7 @@ class ForgotPasswordPage extends StatelessWidget {
                     const Text(
                       'Quên mật khẩu?',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                      ),
+                      style: FigmaTypography.heading28,
                     ),
                     const SizedBox(height: 10),
                     const Text(

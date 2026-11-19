@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/widgets/community_card.dart';
 
@@ -11,10 +12,7 @@ class DiscoverPage extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
       children: [
-        const Text(
-          'Discover',
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
-        ),
+        const Text('Discover', style: FigmaTypography.heading28),
         const SizedBox(height: 16),
         const AppTextField(isSearch: true, hint: 'Search communities'),
         const SizedBox(height: 24),

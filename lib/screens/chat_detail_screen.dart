@@ -4,7 +4,9 @@ import 'package:messenger_app/core/utils/app_snackbar.dart';
 import 'package:messenger_app/models/chat_message.dart';
 import 'package:messenger_app/services/mattermost_api.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:messenger_app/theme/app_theme.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/theme/figma_sizes.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 
@@ -98,7 +100,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: ThemeData.dark(useMaterial3: true),
+      data: AppTheme.dark,
       child: Scaffold(
         backgroundColor: FigmaColors.surfaceBlack,
         appBar: AppBar(
@@ -132,9 +134,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     ),
                     Text(
                       widget.isOnline ? 'Active now' : 'Messenger',
-                      style: const TextStyle(
+                      style: FigmaTypography.label11.copyWith(
                         color: FigmaColors.effectNeutral02,
-                        fontSize: 11,
                       ),
                     ),
                   ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/theme/figma_sizes.dart';
 import 'package:messenger_app/widgets/round_icon_button.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
@@ -247,10 +248,7 @@ class _ChatsPageState extends State<ChatsPage> {
               isOnline: true,
             ),
             const SizedBox(width: 12),
-            const Text(
-              'Chats',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
-            ),
+            const Text('Chats', style: FigmaTypography.heading28),
             const Spacer(),
             if (showCamera) ...[
               RoundIconButton(

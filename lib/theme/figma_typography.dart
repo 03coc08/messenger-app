@@ -20,17 +20,17 @@ abstract final class FigmaTypography {
   // line-height (px). Flutter dùng hệ số nhân nên chia cho font size.
   static const lineHeightLabel15 = 15.0;
 
-  // text color
+  // text color (không gắn sẵn vào TextStyle để dùng được cả nền sáng và nền tối)
   static const textPrimary = Color(0xFF141F33);
   static const textLabel = Color(0xFF263040);
 
-  // Các TextStyle ghép sẵn từ token ở trên.
+  // Các TextStyle ghép sẵn từ token ở trên. Màu chữ lấy theo nơi dùng,
+  // cần màu riêng thì dùng .copyWith(color: ...).
   static const heading28 = TextStyle(
     fontFamily: fontFamilyInter,
     fontSize: fontSizeHeading28,
     fontWeight: fontWeightSemiBold,
     letterSpacing: letterSpacing0,
-    color: textPrimary,
   );
 
   static const body14 = TextStyle(
@@ -38,7 +38,6 @@ abstract final class FigmaTypography {
     fontSize: fontSizeBody14,
     fontWeight: fontWeightRegular,
     letterSpacing: letterSpacing0,
-    color: textPrimary,
   );
 
   static const label11 = TextStyle(
@@ -47,6 +46,5 @@ abstract final class FigmaTypography {
     fontWeight: fontWeightRegular,
     letterSpacing: letterSpacing0,
     height: lineHeightLabel15 / fontSizeLabel11,
-    color: textLabel,
   );
 }

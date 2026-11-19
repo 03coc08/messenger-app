@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_typography.dart';
 
 abstract final class AppTheme {
   static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: FigmaTypography.fontFamilyInter,
       colorScheme: ColorScheme.fromSeed(
         seedColor: FigmaColors.surfaceBrandPrimary02,
         brightness: Brightness.light,
@@ -31,7 +33,14 @@ abstract final class AppTheme {
 
   /// Theme dùng cho khu vực Messenger (nền tối).
   static ThemeData get dark {
-    return ThemeData.dark(useMaterial3: true).copyWith(
+    final base = ThemeData.dark(useMaterial3: true);
+    return base.copyWith(
+      textTheme: base.textTheme.apply(
+        fontFamily: FigmaTypography.fontFamilyInter,
+      ),
+      primaryTextTheme: base.primaryTextTheme.apply(
+        fontFamily: FigmaTypography.fontFamilyInter,
+      ),
       scaffoldBackgroundColor: FigmaColors.surfaceBlack,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,

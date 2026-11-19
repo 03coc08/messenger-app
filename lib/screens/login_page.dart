@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_typography.dart';
 
 import 'package:messenger_app/services/mattermost_api.dart';
 import 'package:messenger_app/screens/forgot_password_page.dart';
@@ -97,20 +98,17 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
                 const SizedBox(height: 40),
-                const Column(
+                Column(
                   children: [
                     Text(
                       'Log In',
-                      style: TextStyle(
-                        fontSize: 25,
+                      style: FigmaTypography.heading28.copyWith(
                         color: FigmaColors.surfaceBlack,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       'Enter your email and password to securely access your account and manage your services.',
-                      style: TextStyle(
-                        fontSize: 14,
+                      style: FigmaTypography.body14.copyWith(
                         color: FigmaColors.surfaceNeutral02,
                       ),
                       textAlign: TextAlign.center,
@@ -238,12 +236,11 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         'Sign Up Here',
-                        style: TextStyle(
+                        style: FigmaTypography.body14.copyWith(
                           color: FigmaColors.surfaceBrandPrimary02,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FigmaTypography.fontWeightSemiBold,
                         ),
                       ),
                     ),

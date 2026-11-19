@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 
 class PeopleScreen extends StatelessWidget {
@@ -27,10 +28,7 @@ class PeopleScreen extends StatelessWidget {
                   backgroundImage: AssetImage('assets/images/messi.png'),
                 ),
                 const SizedBox(width: 12),
-                const Text(
-                  'People',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
-                ),
+                const Text('People', style: FigmaTypography.heading28),
                 const Spacer(),
                 IconButton.filled(
                   onPressed: () {},

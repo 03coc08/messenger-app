@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:messenger_app/core/config/env.dart';
 import 'package:messenger_app/core/utils/app_snackbar.dart';
 import 'package:messenger_app/screens/login_page.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/theme/app_theme.dart';
 
 void main() {
@@ -15,10 +15,10 @@ void main() {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: AppColors.transparent,
+      statusBarColor: FigmaColors.surfaceBlackOpacity0,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark,
-      systemNavigationBarColor: AppColors.black,
+      systemNavigationBarColor: FigmaColors.surfaceBlack,
       systemNavigationBarIconBrightness: Brightness.light,
     ),
   );

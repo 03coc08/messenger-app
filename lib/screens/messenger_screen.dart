@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/theme/app_theme.dart';
 import 'package:messenger_app/screens/chats_page.dart';
 import 'package:messenger_app/screens/discover_page.dart';
@@ -20,7 +20,11 @@ class MessengerScreen extends StatefulWidget {
 class _MessengerScreenState extends State<MessengerScreen> {
   int _currentIndex = 0;
 
-  static const _pages = <Widget>[ChatsPage(), PeopleScreen(), DiscoverPage()];
+  late final List<Widget> _pages = [
+    ChatsPage(session: widget.session, api: widget.api),
+    const PeopleScreen(),
+    const DiscoverPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +38,10 @@ class _MessengerScreenState extends State<MessengerScreen> {
         ),
         bottomNavigationBar: NavigationBar(
           height: 70,
-          backgroundColor: AppColors.darkNavigation,
-          indicatorColor: AppColors.primary.withValues(alpha: 0.2),
+          backgroundColor: FigmaColors.surfaceNeutral,
+          indicatorColor: FigmaColors.surfaceBrandPrimary02.withValues(
+            alpha: 0.2,
+          ),
           selectedIndex: _currentIndex,
           onDestinationSelected: (index) {
             setState(() => _currentIndex = index);

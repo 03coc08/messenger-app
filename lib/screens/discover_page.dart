@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/widgets/community_card.dart';
 
@@ -27,7 +27,7 @@ class DiscoverPage extends StatelessWidget {
           title: 'Football fans',
           subtitle: 'News, highlights and conversations.',
           icon: Icons.sports_soccer_rounded,
-          color: AppColors.online,
+          color: FigmaColors.textGreen,
           onTap: () {},
         ),
         const SizedBox(height: 12),
@@ -35,7 +35,7 @@ class DiscoverPage extends StatelessWidget {
           title: 'Flutter developers',
           subtitle: 'Share ideas and build beautiful apps.',
           icon: Icons.flutter_dash_rounded,
-          color: AppColors.primaryLight,
+          color: FigmaColors.surfaceBrandPrimary,
           onTap: () {},
         ),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messenger_app/core/utils/snack_bar_type.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 
 // Hiện SnackBar ở đâu cũng được, không cần context
 // Ví dụ: AppSnackBar.error('Có lỗi xảy ra')
@@ -22,7 +22,7 @@ class AppSnackBar {
       SnackBar(
         content: Row(
           children: [
-            Icon(_icon(type), color: AppColors.white),
+            Icon(_icon(type), color: FigmaColors.surfaceWhite),
             const SizedBox(width: 10),
             Expanded(child: Text(message)),
           ],
@@ -37,13 +37,13 @@ class AppSnackBar {
   static Color _color(SnackBarType type) {
     switch (type) {
       case SnackBarType.success:
-        return AppColors.online;
+        return FigmaColors.textGreen;
       case SnackBarType.error:
-        return AppColors.danger;
+        return FigmaColors.iconRed09;
       case SnackBarType.warning:
-        return AppColors.warning;
+        return FigmaColors.warning;
       case SnackBarType.info:
-        return AppColors.gray700;
+        return FigmaColors.surfaceNeutral02;
     }
   }
 

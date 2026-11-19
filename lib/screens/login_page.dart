@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 
 import 'package:messenger_app/services/mattermost_api.dart';
 import 'package:messenger_app/screens/forgot_password_page.dart';
@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.gray50,
+      backgroundColor: FigmaColors.surfaceWhite03,
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: SafeArea(
@@ -79,11 +79,11 @@ class _LoginPageState extends State<LoginPage> {
                       height: 35,
                       width: 35,
                       decoration: const BoxDecoration(
-                        color: AppColors.white,
+                        color: FigmaColors.surfaceWhite,
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.black12,
+                            color: FigmaColors.borderBlackOpacity12,
                             blurRadius: 5,
                             offset: Offset(2, 2),
                           ),
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: const Icon(
                         Icons.arrow_back_ios_new,
-                        color: AppColors.black,
+                        color: FigmaColors.surfaceBlack,
                       ),
                     ),
                   ],
@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Log In',
                       style: TextStyle(
                         fontSize: 25,
-                        color: AppColors.black,
+                        color: FigmaColors.surfaceBlack,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                       'Enter your email and password to securely access your account and manage your services.',
                       style: TextStyle(
                         fontSize: 14,
-                        color: AppColors.gray700,
+                        color: FigmaColors.surfaceNeutral02,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -131,9 +131,9 @@ class _LoginPageState extends State<LoginPage> {
                         hint: 'email Address ',
                         prefixIcon: const Icon(
                           Icons.email,
-                          color: AppColors.gray600,
+                          color: FigmaColors.effectNeutral02,
                         ),
-                        fillColor: AppColors.white,
+                        fillColor: FigmaColors.surfaceWhite,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -149,13 +149,13 @@ class _LoginPageState extends State<LoginPage> {
                         hint: 'Password',
                         prefixIcon: const Icon(
                           Icons.lock,
-                          color: AppColors.gray600,
+                          color: FigmaColors.effectNeutral02,
                         ),
                         suffixIcon: const Icon(
                           Icons.visibility_off_outlined,
-                          color: AppColors.gray600,
+                          color: FigmaColors.effectNeutral02,
                         ),
-                        fillColor: AppColors.white,
+                        fillColor: FigmaColors.surfaceWhite,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                         Checkbox(value: false, onChanged: null),
                         Text(
                           'remember me',
-                          style: TextStyle(color: AppColors.black),
+                          style: TextStyle(color: FigmaColors.surfaceBlack),
                         ),
                       ],
                     ),
@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             Text(
                               'forgot password',
-                              style: TextStyle(color: AppColors.black),
+                              style: TextStyle(color: FigmaColors.surfaceBlack),
                             ),
                             SizedBox(width: 10),
                           ],
@@ -205,8 +205,8 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     key: const Key('loginButton'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: AppColors.white,
+                      backgroundColor: FigmaColors.surfaceBrandPrimary02,
+                      foregroundColor: FigmaColors.surfaceWhite,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -227,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const Text(
                       'dont have an accout?',
-                      style: TextStyle(color: AppColors.black),
+                      style: TextStyle(color: FigmaColors.surfaceBlack),
                     ),
                     TextButton(
                       onPressed: () {
@@ -241,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         'Sign Up Here',
                         style: TextStyle(
-                          color: AppColors.primary,
+                          color: FigmaColors.surfaceBrandPrimary02,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
@@ -252,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 30),
                 const Column(
                   children: [
-                    Divider(color: AppColors.black, thickness: 1),
+                    Divider(color: FigmaColors.surfaceBlack, thickness: 1),
                     SizedBox(height: 30),
                     Text('Or Continue With Accout'),
                   ],
@@ -297,9 +297,13 @@ class _SocialButton extends StatelessWidget {
       width: 35,
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.white,
+        color: FigmaColors.surfaceWhite,
         boxShadow: [
-          BoxShadow(color: AppColors.black12, blurRadius: 5, offset: Offset(1, 3)),
+          BoxShadow(
+            color: FigmaColors.borderBlackOpacity12,
+            blurRadius: 5,
+            offset: Offset(1, 3),
+          ),
         ],
       ),
       child: Center(child: child),

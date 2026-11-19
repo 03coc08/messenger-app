@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/core/utils/app_snackbar.dart';
 
@@ -11,7 +11,7 @@ class ForgotPasswordPage extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.transparent),
+      appBar: AppBar(backgroundColor: FigmaColors.surfaceBlackOpacity0),
       body: SafeArea(
         top: false,
         child: Center(
@@ -27,7 +27,7 @@ class ForgotPasswordPage extends StatelessWidget {
                     const Icon(
                       Icons.lock_reset_rounded,
                       size: 68,
-                      color: AppColors.primary,
+                      color: FigmaColors.surfaceBrandPrimary02,
                     ),
                     const SizedBox(height: 20),
                     const Text(
@@ -42,7 +42,10 @@ class ForgotPasswordPage extends StatelessWidget {
                     const Text(
                       'Nhập email để nhận hướng dẫn đặt lại mật khẩu.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.gray600, height: 1.5),
+                      style: TextStyle(
+                        color: FigmaColors.effectNeutral02,
+                        height: 1.5,
+                      ),
                     ),
                     const SizedBox(height: 28),
                     AppTextField(
@@ -66,7 +69,7 @@ class ForgotPasswordPage extends StatelessWidget {
                           );
                         },
                         style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: FigmaColors.surfaceBrandPrimary02,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),

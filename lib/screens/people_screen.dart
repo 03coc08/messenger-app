@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 
 class PeopleScreen extends StatelessWidget {
@@ -35,7 +35,7 @@ class PeopleScreen extends StatelessWidget {
                 IconButton.filled(
                   onPressed: () {},
                   style: IconButton.styleFrom(
-                    backgroundColor: AppColors.darkSurface,
+                    backgroundColor: FigmaColors.artworkNeutral07,
                   ),
                   icon: const Icon(Icons.person_add_alt_1_rounded),
                 ),
@@ -68,14 +68,14 @@ class PeopleScreen extends StatelessWidget {
                 ),
                 subtitle: Text(
                   person.status,
-                  style: const TextStyle(color: AppColors.darkMuted),
+                  style: const TextStyle(color: FigmaColors.effectNeutral02),
                 ),
                 trailing: IconButton(
                   tooltip: 'Say hello',
                   onPressed: () {},
                   icon: const Icon(
                     Icons.waving_hand_rounded,
-                    color: AppColors.warning,
+                    color: FigmaColors.warning,
                   ),
                 ),
               );
@@ -96,7 +96,7 @@ class _StoryAction extends StatelessWidget {
       children: [
         const CircleAvatar(
           radius: 24,
-          backgroundColor: AppColors.darkSurface,
+          backgroundColor: FigmaColors.artworkNeutral07,
           child: Icon(Icons.add_rounded),
         ),
         const SizedBox(width: 12),
@@ -107,7 +107,10 @@ class _StoryAction extends StatelessWidget {
             SizedBox(height: 2),
             Text(
               'Share a photo or write something',
-              style: TextStyle(color: AppColors.darkMuted, fontSize: 13),
+              style: TextStyle(
+                color: FigmaColors.effectNeutral02,
+                fontSize: 13,
+              ),
             ),
           ],
         ),
@@ -136,9 +139,9 @@ class _PersonAvatar extends StatelessWidget {
                 width: 14,
                 height: 14,
                 decoration: BoxDecoration(
-                  color: AppColors.online,
+                  color: FigmaColors.textGreen,
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.darkBackground, width: 2),
+                  border: Border.all(color: FigmaColors.surfaceBlack, width: 2),
                 ),
               ),
             ),

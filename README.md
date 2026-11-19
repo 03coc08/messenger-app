@@ -93,6 +93,35 @@ flutter analyze
 flutter test
 ```
 
+## Icon SVG
+
+Icon SVG nằm trong `assets/icons/` và được vẽ bằng package `flutter_svg`.
+
+**Thêm icon mới**
+
+1. Xuất icon từ Figma dạng SVG (chọn đúng component icon, không chọn lớp chữ).
+2. Đổi tên file: chữ thường, dùng dấu gạch dưới, không dấu cách
+   (ví dụ `arrow_right.svg`, `video_call.svg`).
+3. Chép vào `assets/icons/`, rồi chạy lại app (hot reload không nạp asset mới).
+
+**Dùng trong code**
+
+```dart
+import 'package:flutter_svg/flutter_svg.dart';
+
+SvgPicture.asset('assets/icons/arrow_right.svg', width: 24, height: 24)
+
+// Đổi màu icon (dùng màu từ FigmaColors)
+SvgPicture.asset(
+  'assets/icons/arrow_right.svg',
+  width: 24,
+  colorFilter: const ColorFilter.mode(
+    FigmaColors.surfaceBrandPrimary02,
+    BlendMode.srcIn,
+  ),
+)
+```
+
 ## Cấu trúc thư mục
 
 ```
@@ -112,7 +141,7 @@ lib/
 ├── services/
 │   └── mattermost_api.dart   # Các API Mattermost (login, getMe, logout)
 ├── screens/                  # Các màn hình (login, signup, chats, people, chat detail...)
-├── theme/                    # Màu sắc (AppColors) và theme (AppTheme)
+├── theme/                    # Màu sắc (FigmaColors) và theme (AppTheme)
 └── widgets/                  # Widget dùng lại nhiều nơi
 assets/images/                # Ảnh đại diện mẫu
 docs/images/                  # Ảnh màn hình cho README
@@ -156,7 +185,7 @@ Token đăng nhập được tự gắn vào header sau khi `login()` thành cô
 
 - Không commit các file: `env/*.env`, `.vscode/`, `.metadata`, `pubspec.lock`
   (đã có trong `.gitignore`).
-- Màu sắc lấy từ `AppColors`, không viết mã màu trực tiếp trong widget.
+- Màu sắc lấy từ `FigmaColors`, không viết mã màu trực tiếp trong widget.
 - Thông báo cho người dùng dùng `AppSnackBar`.
 - Commit message theo [Conventional Commits](https://www.conventionalcommits.org/):
   `feat:`, `fix:`, `refactor:`, `chore:`...

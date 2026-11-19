@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/core/utils/app_snackbar.dart';
 
@@ -24,7 +24,7 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: AppColors.transparent),
+      appBar: AppBar(backgroundColor: FigmaColors.surfaceBlackOpacity0),
       body: SafeArea(
         top: false,
         child: Center(
@@ -50,7 +50,10 @@ class _SignupPageState extends State<SignupPage> {
                     const Text(
                       'Đăng ký để bắt đầu trò chuyện với bạn bè.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: AppColors.gray600, height: 1.5),
+                      style: TextStyle(
+                        color: FigmaColors.effectNeutral02,
+                        height: 1.5,
+                      ),
                     ),
                     const SizedBox(height: 26),
                     AppTextField(
@@ -111,7 +114,7 @@ class _SignupPageState extends State<SignupPage> {
                           Navigator.pop(context);
                         },
                         style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: FigmaColors.surfaceBrandPrimary02,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),

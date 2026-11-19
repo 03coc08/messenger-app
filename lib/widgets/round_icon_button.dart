@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 
 class RoundIconButton extends StatelessWidget {
   const RoundIconButton({
@@ -8,15 +8,18 @@ class RoundIconButton extends StatelessWidget {
     required this.onPressed,
   });
 
-  final IconData icon;
+  final Widget icon;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return IconButton.filled(
       onPressed: onPressed,
-      style: IconButton.styleFrom(backgroundColor: AppColors.darkSurface),
-      icon: Icon(icon, size: 20),
+      iconSize: 20,
+      style: IconButton.styleFrom(
+        backgroundColor: FigmaColors.artworkNeutral07,
+      ),
+      icon: icon,
     );
   }
 }

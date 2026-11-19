@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({
@@ -28,10 +28,10 @@ class UserAvatar extends StatelessWidget {
                 width: radius * 0.52,
                 height: radius * 0.52,
                 decoration: BoxDecoration(
-                  color: AppColors.online,
+                  color: FigmaColors.textGreen,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: AppColors.darkBackground,
+                    color: FigmaColors.surfaceBlack,
                     width: 2.5,
                   ),
                 ),

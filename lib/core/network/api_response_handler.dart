@@ -31,6 +31,7 @@ ApiResponse handleResponse(
   throw ApiException.fromCode(code, statusCode: res.statusCode, data: data);
 }
 
+// hàm này chuyển body sang json
 dynamic _decode(String body) {
   if (body.isEmpty) return null;
   try {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_sizes.dart';
 
 class CommunityCard extends StatelessWidget {
   const CommunityCard({
@@ -20,7 +22,7 @@ class CommunityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppColors.darkSurface,
+      color: FigmaColors.artworkNeutral07,
       clipBehavior: Clip.antiAlias,
       child: ListTile(
         contentPadding: const EdgeInsets.all(12),
@@ -31,9 +33,12 @@ class CommunityCard extends StatelessWidget {
         title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
         subtitle: Text(
           subtitle,
-          style: const TextStyle(color: AppColors.darkMuted),
+          style: const TextStyle(color: FigmaColors.effectNeutral02),
         ),
-        trailing: const Icon(Icons.chevron_right_rounded),
+        trailing: SvgPicture.asset(
+          'assets/icons/collapse_input.svg',
+          height: FigmaSizes.size16,
+        ),
         onTap: onTap,
       ),
     );

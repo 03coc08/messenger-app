@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:messenger_app/theme/app_colors.dart';
+import 'package:messenger_app/core/network/api_error_handler.dart';
+import 'package:messenger_app/core/utils/app_snackbar.dart';
+import 'package:messenger_app/models/chat_message.dart';
+import 'package:messenger_app/services/mattermost_api.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_sizes.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 
-class ChatDetailScreen extends StatelessWidget {
+class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({
     required this.name,
     required this.avatar,
     required this.isOnline,
+    this.api,
+    this.currentUserId = '',
+    this.channelId = '',
     super.key,
   });
 
@@ -14,15 +23,87 @@ class ChatDetailScreen extends StatelessWidget {
   final String avatar;
   final bool isOnline;
 
+  // Không truyền api thì màn hình chỉ hiện khung, không tải tin nhắn
+  final MattermostApi? api;
+  final String currentUserId;
+  final String channelId;
+
+  @override
+  State<ChatDetailScreen> createState() => _ChatDetailScreenState();
+}
+
+class _ChatDetailScreenState extends State<ChatDetailScreen> {
+  final _controller = TextEditingController();
+
+  // Tin mới nhất nằm đầu danh sách (khớp với ListView reverse)
+  List<ChatMessage> _messages = [];
+  bool _isLoading = false;
+  bool _isSending = false;
+  String? _error;
+
+  bool get _canUseApi => widget.api != null && widget.channelId.isNotEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_canUseApi) _loadMessages();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadMessages() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    try {
+      final all = await widget.api!.getPosts(widget.channelId);
+      // Bỏ tin hệ thống (vào/rời kênh...), chỉ giữ tin người dùng gửi
+      final messages = all.where((m) => m.type.isEmpty).toList();
+      if (!mounted) return;
+      setState(() {
+        _messages = messages;
+        _isLoading = false;
+      });
+    } catch (e, stack) {
+      if (!mounted) return;
+      setState(() {
+        _error = handleRequestError(e, stack).message;
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _send() async {
+    final text = _controller.text.trim();
+    if (text.isEmpty || _isSending || !_canUseApi) return;
+
+    setState(() => _isSending = true);
+    try {
+      final sent = await widget.api!.sendPost(widget.channelId, text);
+      if (!mounted) return;
+      _controller.clear();
+      setState(() => _messages = [sent, ..._messages]);
+    } catch (e, stack) {
+      AppSnackBar.error(handleRequestError(e, stack).message);
+    } finally {
+      if (mounted) setState(() => _isSending = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData.dark(useMaterial3: true),
       child: Scaffold(
-        backgroundColor: AppColors.darkBackground,
+        backgroundColor: FigmaColors.surfaceBlack,
         appBar: AppBar(
-          backgroundColor: AppColors.darkBackground,
-          surfaceTintColor: AppColors.transparent,
+          backgroundColor: FigmaColors.surfaceBlack,
+          surfaceTintColor: FigmaColors.surfaceBlackOpacity0,
           titleSpacing: 0,
           leading: IconButton(
             tooltip: 'Back',
@@ -31,14 +112,17 @@ class ChatDetailScreen extends StatelessWidget {
           ),
           title: Row(
             children: [
-              CircleAvatar(radius: 18, backgroundImage: AssetImage(avatar)),
+              CircleAvatar(
+                radius: 18,
+                backgroundImage: AssetImage(widget.avatar),
+              ),
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      name,
+                      widget.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -47,9 +131,9 @@ class ChatDetailScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      isOnline ? 'Active now' : 'Messenger',
+                      widget.isOnline ? 'Active now' : 'Messenger',
                       style: const TextStyle(
-                        color: AppColors.darkMuted,
+                        color: FigmaColors.effectNeutral02,
                         fontSize: 11,
                       ),
                     ),
@@ -62,64 +146,90 @@ class ChatDetailScreen extends StatelessWidget {
             IconButton(
               tooltip: 'Audio call',
               onPressed: () {},
-              icon: const Icon(Icons.call_rounded, color: AppColors.primary),
+              icon: SvgPicture.asset(
+                'assets/icons/call.svg',
+                width: FigmaSizes.size24,
+              ),
             ),
             IconButton(
               tooltip: 'Video call',
               onPressed: () {},
-              icon: const Icon(
-                Icons.videocam_rounded,
-                color: AppColors.primary,
+              icon: SvgPicture.asset(
+                'assets/icons/video_call.svg',
+                width: FigmaSizes.size27,
               ),
             ),
           ],
         ),
         body: Column(
           children: [
-            Expanded(
-              child: ListView(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                padding: const EdgeInsets.fromLTRB(14, 16, 14, 8),
-                children: [
-                  _buildUserIntro(context),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Today, 9:32 PM',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.darkMuted, fontSize: 11),
-                  ),
-                  const SizedBox(height: 10),
-                  const Align(
-                    alignment: Alignment.centerRight,
-                    child: Text('👋', style: TextStyle(fontSize: 48)),
-                  ),
-                  const SizedBox(height: 6),
-                  _ReceivedMessage(avatar: avatar, text: 'Hello!'),
-                  _ReceivedMessage(avatar: avatar, text: 'How are you doing?'),
-                ],
-              ),
+            Expanded(child: _buildMessageList()),
+            _MessageComposer(
+              controller: _controller,
+              isSending: _isSending,
+              onSend: _send,
             ),
-            const _MessageComposer(),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildMessageList() {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (_error != null) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(_error!, textAlign: TextAlign.center),
+            const SizedBox(height: 12),
+            FilledButton(
+              onPressed: _loadMessages,
+              child: const Text('Thử lại'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // reverse: tin mới nhất ở sát ô nhập, phần giới thiệu nằm trên cùng
+    return ListView.builder(
+      reverse: true,
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      padding: const EdgeInsets.fromLTRB(14, 16, 14, 8),
+      itemCount: _messages.length + 1,
+      itemBuilder: (context, index) {
+        if (index == _messages.length) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: _buildUserIntro(context),
+          );
+        }
+        final message = _messages[index];
+        if (message.userId == widget.currentUserId) {
+          return _SentMessage(text: message.message);
+        }
+        return _ReceivedMessage(avatar: widget.avatar, text: message.message);
+      },
+    );
+  }
+
   Widget _buildUserIntro(BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(radius: 42, backgroundImage: AssetImage(avatar)),
+        CircleAvatar(radius: 42, backgroundImage: AssetImage(widget.avatar)),
         const SizedBox(height: 12),
         Text(
-          name,
+          widget.name,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 4),
         const Text(
           "You're friends on Facebook",
-          style: TextStyle(color: AppColors.darkMuted, fontSize: 13),
+          style: TextStyle(color: FigmaColors.effectNeutral02, fontSize: 13),
         ),
         const SizedBox(height: 16),
         SizedBox(
@@ -138,7 +248,7 @@ class ChatDetailScreen extends StatelessWidget {
                 right: 0,
                 child: CircleAvatar(
                   radius: 19,
-                  backgroundImage: AssetImage(avatar),
+                  backgroundImage: AssetImage(widget.avatar),
                 ),
               ),
             ],
@@ -146,9 +256,12 @@ class ChatDetailScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Say hi to your Facebook friend, $name.',
+          'Say hi to your Facebook friend, ${widget.name}.',
           textAlign: TextAlign.center,
-          style: const TextStyle(color: AppColors.darkMuted, fontSize: 12),
+          style: const TextStyle(
+            color: FigmaColors.effectNeutral02,
+            fontSize: 12,
+          ),
         ),
       ],
     );
@@ -174,7 +287,7 @@ class _ReceivedMessage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9),
               decoration: BoxDecoration(
-                color: AppColors.darkSurface,
+                color: FigmaColors.artworkNeutral07,
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Text(text),
@@ -186,8 +299,43 @@ class _ReceivedMessage extends StatelessWidget {
   }
 }
 
+class _SentMessage extends StatelessWidget {
+  const _SentMessage({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 5),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9),
+          decoration: BoxDecoration(
+            color: FigmaColors.surfaceBrandPrimary02,
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Text(
+            text,
+            style: const TextStyle(color: FigmaColors.surfaceWhite),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _MessageComposer extends StatelessWidget {
-  const _MessageComposer();
+  const _MessageComposer({
+    required this.controller,
+    required this.isSending,
+    required this.onSend,
+  });
+
+  final TextEditingController controller;
+  final bool isSending;
+  final VoidCallback onSend;
 
   @override
   Widget build(BuildContext context) {
@@ -200,17 +348,28 @@ class _MessageComposer extends StatelessWidget {
             final showMediaButtons = constraints.maxWidth >= 360;
             return Row(
               children: [
-                const _ComposerButton(icon: Icons.add_circle_rounded),
+                _ComposerButton(
+                  icon: SvgPicture.asset('assets/icons/actions.svg'),
+                ),
                 if (showMediaButtons) ...[
-                  const _ComposerButton(icon: Icons.camera_alt_rounded),
-                  const _ComposerButton(icon: Icons.image_rounded),
+                  _ComposerButton(
+                    icon: SvgPicture.asset(
+                      'assets/icons/camera.svg',
+                      colorFilter: const ColorFilter.mode(
+                        FigmaColors.surfaceBrandPrimary02,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                  const _ComposerButton(icon: Icon(Icons.image_rounded)),
                 ],
                 Expanded(
                   child: AppTextField(
+                    controller: controller,
                     minLines: 1,
                     maxLines: 4,
                     hint: 'Message',
-                    fillColor: AppColors.darkSurface,
+                    fillColor: FigmaColors.artworkNeutral07,
                     contentPadding: const EdgeInsets.fromLTRB(14, 10, 4, 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -218,11 +377,17 @@ class _MessageComposer extends StatelessWidget {
                     ),
                     suffixIcon: IconButton(
                       onPressed: () {},
-                      icon: const Icon(Icons.sentiment_satisfied_alt_rounded),
+                      icon: SvgPicture.asset(
+                        'assets/icons/emoji.svg',
+                        width: FigmaSizes.size24,
+                      ),
                     ),
                   ),
                 ),
-                const _ComposerButton(icon: Icons.thumb_up_rounded),
+                _ComposerButton(
+                  icon: const Icon(Icons.send_rounded),
+                  onPressed: isSending ? null : onSend,
+                ),
               ],
             );
           },
@@ -233,17 +398,19 @@ class _MessageComposer extends StatelessWidget {
 }
 
 class _ComposerButton extends StatelessWidget {
-  const _ComposerButton({required this.icon});
+  const _ComposerButton({required this.icon, this.onPressed});
 
-  final IconData icon;
+  final Widget icon;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: onPressed ?? () {},
       visualDensity: VisualDensity.compact,
-      color: AppColors.primary,
-      icon: Icon(icon, size: 22),
+      color: FigmaColors.surfaceBrandPrimary02,
+      iconSize: 22,
+      icon: icon,
     );
   }
 }

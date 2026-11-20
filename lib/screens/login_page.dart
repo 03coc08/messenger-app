@@ -10,6 +10,7 @@ import 'package:messenger_app/core/utils/app_snackbar.dart';
 import 'package:messenger_app/core/utils/validators.dart';
 import 'package:messenger_app/core/network/api_error_handler.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
+import 'package:messenger_app/widgets/svg_icon.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -90,9 +91,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.arrow_back_ios_new,
-                        color: FigmaColors.surfaceBlack,
+                      child: const Center(
+                        child: SvgIcon('assets/icons/back.svg', size: 18),
                       ),
                     ),
                   ],
@@ -127,8 +127,9 @@ class _LoginPageState extends State<LoginPage> {
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         hint: 'email Address ',
-                        prefixIcon: const Icon(
-                          Icons.email,
+                        prefixIcon: const SvgIcon(
+                          'assets/icons/email.svg',
+                          size: 20,
                           color: FigmaColors.effectNeutral02,
                         ),
                         fillColor: FigmaColors.surfaceWhite,
@@ -145,12 +146,14 @@ class _LoginPageState extends State<LoginPage> {
                         textInputAction: TextInputAction.done,
                         onSubmitted: (_) => _login(),
                         hint: 'Password',
-                        prefixIcon: const Icon(
-                          Icons.lock,
+                        prefixIcon: const SvgIcon(
+                          'assets/icons/lock.svg',
+                          size: 20,
                           color: FigmaColors.effectNeutral02,
                         ),
-                        suffixIcon: const Icon(
-                          Icons.visibility_off_outlined,
+                        suffixIcon: const SvgIcon(
+                          'assets/icons/eye_slash.svg',
+                          size: 20,
                           color: FigmaColors.effectNeutral02,
                         ),
                         fillColor: FigmaColors.surfaceWhite,
@@ -163,12 +166,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Row(
                   children: [
-                    const Row(
+                    Row(
                       children: [
                         Checkbox(value: false, onChanged: null),
                         Text(
                           'remember me',
-                          style: TextStyle(color: FigmaColors.surfaceBlack),
+                          style: FigmaTypography.body14.copyWith(
+                            color: FigmaColors.surfaceBlack,
+                          ),
                         ),
                       ],
                     ),
@@ -182,12 +187,14 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         },
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
                               'forgot password',
-                              style: TextStyle(color: FigmaColors.surfaceBlack),
+                              style: FigmaTypography.body14.copyWith(
+                                color: FigmaColors.surfaceBlack,
+                              ),
                             ),
                             SizedBox(width: 10),
                           ],
@@ -211,21 +218,17 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     onPressed: _isLoggingIn ? null : _login,
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    child: Text('Login', style: FigmaTypography.body14SemiBold),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'dont have an accout?',
-                      style: TextStyle(color: FigmaColors.surfaceBlack),
+                      style: FigmaTypography.body14.copyWith(
+                        color: FigmaColors.surfaceBlack,
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -258,19 +261,29 @@ class _LoginPageState extends State<LoginPage> {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _SocialButton(child: Icon(Icons.facebook)),
-                    SizedBox(width: 20),
                     _SocialButton(
-                      child: Text(
-                        'G',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: SvgIcon(
+                        'assets/icons/facebook.svg',
+                        size: 20,
+                        color: FigmaColors.surfaceBlack,
                       ),
                     ),
                     SizedBox(width: 20),
-                    _SocialButton(child: Icon(Icons.apple)),
+                    _SocialButton(
+                      child: SvgIcon(
+                        'assets/icons/google.svg',
+                        size: 20,
+                        color: FigmaColors.surfaceBlack,
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    _SocialButton(
+                      child: SvgIcon(
+                        'assets/icons/apple.svg',
+                        size: 20,
+                        color: FigmaColors.surfaceBlack,
+                      ),
+                    ),
                   ],
                 ),
               ],

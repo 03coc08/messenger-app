@@ -9,6 +9,7 @@ import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/theme/figma_sizes.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
+import 'package:messenger_app/widgets/svg_icon.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({
@@ -110,7 +111,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           leading: IconButton(
             tooltip: 'Back',
             onPressed: () => Navigator.maybePop(context),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+            icon: const SvgIcon('assets/icons/back.svg', size: 20),
           ),
           title: Row(
             children: [
@@ -127,10 +128,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       widget.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: FigmaTypography.body14SemiBold,
                     ),
                     Text(
                       widget.isOnline ? 'Active now' : 'Messenger',
@@ -223,14 +221,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       children: [
         CircleAvatar(radius: 42, backgroundImage: AssetImage(widget.avatar)),
         const SizedBox(height: 12),
-        Text(
-          widget.name,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-        ),
+        Text(widget.name, style: FigmaTypography.body14SemiBold),
         const SizedBox(height: 4),
-        const Text(
+        Text(
           "You're friends on Facebook",
-          style: TextStyle(color: FigmaColors.effectNeutral02, fontSize: 13),
+          style: FigmaTypography.body14.copyWith(
+            color: FigmaColors.effectNeutral02,
+          ),
         ),
         const SizedBox(height: 16),
         SizedBox(
@@ -259,9 +256,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         Text(
           'Say hi to your Facebook friend, ${widget.name}.',
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: FigmaTypography.label11.copyWith(
             color: FigmaColors.effectNeutral02,
-            fontSize: 12,
           ),
         ),
       ],
@@ -319,7 +315,9 @@ class _SentMessage extends StatelessWidget {
           ),
           child: Text(
             text,
-            style: const TextStyle(color: FigmaColors.surfaceWhite),
+            style: FigmaTypography.body14.copyWith(
+              color: FigmaColors.surfaceWhite,
+            ),
           ),
         ),
       ),
@@ -362,7 +360,9 @@ class _MessageComposer extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const _ComposerButton(icon: Icon(Icons.image_rounded)),
+                  _ComposerButton(
+                    icon: SvgPicture.asset('assets/icons/gallery.svg'),
+                  ),
                 ],
                 Expanded(
                   child: AppTextField(
@@ -386,7 +386,14 @@ class _MessageComposer extends StatelessWidget {
                   ),
                 ),
                 _ComposerButton(
-                  icon: const Icon(Icons.send_rounded),
+                  icon: SvgPicture.asset(
+                    'assets/icons/send.svg',
+                    width: FigmaSizes.size24,
+                    colorFilter: const ColorFilter.mode(
+                      FigmaColors.surfaceBrandPrimary02,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                   onPressed: isSending ? null : onSend,
                 ),
               ],

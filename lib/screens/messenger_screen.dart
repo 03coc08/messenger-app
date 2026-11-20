@@ -6,6 +6,7 @@ import 'package:messenger_app/screens/discover_page.dart';
 import 'package:messenger_app/screens/people_screen.dart';
 import 'package:messenger_app/models/session.dart';
 import 'package:messenger_app/services/mattermost_api.dart';
+import 'package:messenger_app/widgets/svg_icon.dart';
 
 class MessengerScreen extends StatefulWidget {
   const MessengerScreen({super.key, required this.session, required this.api});
@@ -48,18 +49,34 @@ class _MessengerScreenState extends State<MessengerScreen> {
           },
           destinations: const [
             NavigationDestination(
-              icon: Icon(Icons.chat_bubble_outline_rounded),
-              selectedIcon: Icon(Icons.chat_bubble_rounded),
+              icon: SvgIcon(
+                'assets/icons/tab_chats.svg',
+                color: FigmaColors.iconNeutral07,
+              ),
+              selectedIcon: SvgIcon(
+                'assets/icons/tab_chats.svg',
+                color: FigmaColors.surfaceWhite,
+              ),
               label: 'Chats',
             ),
             NavigationDestination(
-              icon: Icon(Icons.people_outline_rounded),
-              selectedIcon: Icon(Icons.people_rounded),
+              icon: SvgIcon(
+                'assets/icons/tab_people.svg',
+                color: FigmaColors.iconNeutral07,
+              ),
+              selectedIcon: SvgIcon(
+                'assets/icons/tab_people.svg',
+                color: FigmaColors.surfaceWhite,
+              ),
               label: 'People',
             ),
             NavigationDestination(
-              icon: Icon(Icons.explore_outlined),
-              selectedIcon: Icon(Icons.explore_rounded),
+              icon: SvgIcon('assets/icons/tab_discover.svg', fit: BoxFit.none),
+              selectedIcon: SvgIcon(
+                'assets/icons/tab_discover_selected.svg',
+                color: FigmaColors.surfaceWhite,
+                fit: BoxFit.none,
+              ),
               label: 'Discover',
             ),
           ],

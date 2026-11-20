@@ -40,30 +40,31 @@ trên máy bạn.
 ### 2. Tạo file cấu hình môi trường
 
 Cấu hình được truyền vào lúc build bằng `--dart-define-from-file`. Các file
-`env/*.env` chứa địa chỉ máy chủ thật nên **không được đẩy lên git**. Hãy tạo
-từ file mẫu:
+các file `.env.*` ở thư mục gốc (ngang hàng với `README.md`) chứa địa chỉ máy
+chủ thật nên **không được đẩy lên git**. Hãy tự tạo file `.env.dev` với nội dung:
 
-```bash
-cp env/dev.env.example env/dev.env
+```
+APP_ENV=dev
+BASE_URL=https://chat.example.com
 ```
 
-Sau đó sửa `env/dev.env`:
+Trong đó:
 
 | Biến       | Ý nghĩa                                         | Ví dụ                         |
 |------------|-------------------------------------------------|-------------------------------|
 | `APP_ENV`  | Môi trường chạy: `dev` hoặc `prod`              | `dev`                         |
 | `BASE_URL` | Địa chỉ máy chủ Mattermost, không có `/` ở cuối | `https://chat.example.com`    |
 
-Nếu cần build bản production, tạo thêm `env/prod.env` theo cùng mẫu.
+Nếu cần build bản production, tạo thêm `.env.prod` theo cùng mẫu (`APP_ENV=prod`).
 
 ### 3. Chạy app
 
 ```bash
 # Môi trường dev
-flutter run --dart-define-from-file=env/dev.env
+flutter run --dart-define-from-file=.env.dev
 
 # Môi trường prod
-flutter run --dart-define-from-file=env/prod.env
+flutter run --dart-define-from-file=.env.prod
 ```
 
 Nếu quên truyền file env, app sẽ dừng ngay khi khởi động với lỗi
@@ -80,7 +81,7 @@ Nếu quên truyền file env, app sẽ dừng ngay khi khởi động với l�
       "name": "messenger_app (dev)",
       "request": "launch",
       "type": "dart",
-      "args": ["--dart-define-from-file=env/dev.env"]
+      "args": ["--dart-define-from-file=.env.dev"]
     }
   ]
 }
@@ -145,7 +146,7 @@ lib/
 └── widgets/                  # Widget dùng lại nhiều nơi
 assets/images/                # Ảnh đại diện mẫu
 docs/images/                  # Ảnh màn hình cho README
-env/                          # File cấu hình môi trường (chỉ file .example được commit)
+.env.dev, .env.prod           # Cấu hình môi trường, nằm ngang hàng README (không commit)
 ```
 
 ## Gọi API và xử lý lỗi
@@ -183,7 +184,7 @@ Token đăng nhập được tự gắn vào header sau khi `login()` thành cô
 
 ## Quy ước
 
-- Không commit các file: `env/*.env`, `.vscode/`, `.metadata`, `pubspec.lock`
+- Không commit các file: `.env.*`, `.vscode/`, `.metadata`, `pubspec.lock`
   (đã có trong `.gitignore`).
 - Màu sắc lấy từ `FigmaColors`, không viết mã màu trực tiếp trong widget.
 - Thông báo cho người dùng dùng `AppSnackBar`.

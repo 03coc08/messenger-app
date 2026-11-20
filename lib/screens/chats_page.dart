@@ -13,6 +13,7 @@ import 'package:messenger_app/models/session.dart';
 import 'package:messenger_app/services/mattermost_api.dart';
 import 'package:messenger_app/models/story.dart';
 import 'package:messenger_app/screens/chat_detail_screen.dart';
+import 'package:messenger_app/widgets/svg_icon.dart';
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({super.key, required this.session, required this.api});
@@ -187,21 +188,14 @@ class _ChatsPageState extends State<ChatsPage> {
                     radius: 27,
                     isOnline: chat.isOnline,
                   ),
-                  title: Text(
-                    chat.name,
-                    style: TextStyle(
-                      fontWeight: chat.isUnread
-                          ? FontWeight.w700
-                          : FontWeight.w600,
-                    ),
-                  ),
+                  title: Text(chat.name, style: FigmaTypography.body14SemiBold),
                   subtitle: Text(
                     chat.message.isEmpty
                         ? chat.time
                         : '${chat.message}  ·  ${chat.time}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: FigmaTypography.body14.copyWith(
                       color: chat.isUnread
                           ? FigmaColors.textWhiteOpacity70
                           : FigmaColors.effectNeutral02,
@@ -265,7 +259,11 @@ class _ChatsPageState extends State<ChatsPage> {
               const SizedBox(width: 8),
             ],
             RoundIconButton(
-              icon: const Icon(Icons.edit_rounded),
+              icon: const SvgIcon(
+                'assets/icons/new_message.svg',
+                size: 20,
+                color: FigmaColors.surfaceWhite,
+              ),
               onPressed: () {},
             ),
           ],
@@ -284,22 +282,25 @@ class _ChatsPageState extends State<ChatsPage> {
         separatorBuilder: (_, _) => const SizedBox(width: 16),
         itemBuilder: (context, index) {
           if (index == 0) {
-            return const SizedBox(
+            return SizedBox(
               width: 58,
               child: Column(
                 children: [
                   CircleAvatar(
                     radius: 27,
                     backgroundColor: FigmaColors.artworkNeutral07,
-                    child: Icon(Icons.add_rounded),
+                    child: SvgIcon(
+                      'assets/icons/add.svg',
+                      size: 20,
+                      color: FigmaColors.surfaceWhite,
+                    ),
                   ),
                   SizedBox(height: 6),
                   Text(
                     'Your story',
                     maxLines: 1,
-                    style: TextStyle(
+                    style: FigmaTypography.label11.copyWith(
                       color: FigmaColors.effectNeutral02,
-                      fontSize: 12,
                     ),
                   ),
                 ],
@@ -318,9 +319,8 @@ class _ChatsPageState extends State<ChatsPage> {
                   story.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: FigmaTypography.label11.copyWith(
                     color: FigmaColors.effectNeutral02,
-                    fontSize: 12,
                   ),
                 ),
               ],

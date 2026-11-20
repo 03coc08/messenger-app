@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
+import 'package:messenger_app/widgets/svg_icon.dart';
 
 class PeopleScreen extends StatelessWidget {
   const PeopleScreen({super.key});
@@ -35,7 +36,11 @@ class PeopleScreen extends StatelessWidget {
                   style: IconButton.styleFrom(
                     backgroundColor: FigmaColors.artworkNeutral07,
                   ),
-                  icon: const Icon(Icons.person_add_alt_1_rounded),
+                  icon: const SvgIcon(
+                    'assets/icons/add_contact.svg',
+                    size: 22,
+                    color: FigmaColors.surfaceWhite,
+                  ),
                 ),
               ],
             ),
@@ -60,19 +65,19 @@ class PeopleScreen extends StatelessWidget {
                 minTileHeight: 68,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 6),
                 leading: _PersonAvatar(person: person),
-                title: Text(
-                  person.name,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
+                title: Text(person.name, style: FigmaTypography.body14SemiBold),
                 subtitle: Text(
                   person.status,
-                  style: const TextStyle(color: FigmaColors.effectNeutral02),
+                  style: FigmaTypography.body14.copyWith(
+                    color: FigmaColors.effectNeutral02,
+                  ),
                 ),
                 trailing: IconButton(
                   tooltip: 'Say hello',
                   onPressed: () {},
-                  icon: const Icon(
-                    Icons.waving_hand_rounded,
+                  icon: const SvgIcon(
+                    'assets/icons/wave.svg',
+                    size: 22,
                     color: FigmaColors.warning,
                   ),
                 ),
@@ -95,19 +100,22 @@ class _StoryAction extends StatelessWidget {
         const CircleAvatar(
           radius: 24,
           backgroundColor: FigmaColors.artworkNeutral07,
-          child: Icon(Icons.add_rounded),
+          child: SvgIcon(
+            'assets/icons/add.svg',
+            size: 22,
+            color: FigmaColors.surfaceWhite,
+          ),
         ),
         const SizedBox(width: 12),
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Your story', style: TextStyle(fontWeight: FontWeight.w700)),
+            Text('Your story', style: FigmaTypography.body14SemiBold),
             SizedBox(height: 2),
             Text(
               'Share a photo or write something',
-              style: TextStyle(
+              style: FigmaTypography.body14.copyWith(
                 color: FigmaColors.effectNeutral02,
-                fontSize: 13,
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:messenger_app/theme/figma_colors.dart';
+import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/theme/figma_sizes.dart';
 
 class CommunityCard extends StatelessWidget {
@@ -30,10 +31,12 @@ class CommunityCard extends StatelessWidget {
           backgroundColor: color.withValues(alpha: 0.18),
           child: Icon(icon, color: color),
         ),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w700)),
+        title: Text(title, style: FigmaTypography.body14SemiBold),
         subtitle: Text(
           subtitle,
-          style: const TextStyle(color: FigmaColors.effectNeutral02),
+          style: FigmaTypography.body14.copyWith(
+            color: FigmaColors.effectNeutral02,
+          ),
         ),
         trailing: SvgPicture.asset(
           'assets/icons/collapse_input.svg',

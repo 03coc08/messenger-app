@@ -3,6 +3,7 @@ import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/core/utils/app_snackbar.dart';
+import 'package:messenger_app/widgets/svg_icon.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({super.key});
@@ -25,8 +26,8 @@ class ForgotPasswordPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Icon(
-                      Icons.lock_reset_rounded,
+                    const SvgIcon(
+                      'assets/icons/lock.svg',
                       size: 68,
                       color: FigmaColors.surfaceBrandPrimary02,
                     ),
@@ -37,10 +38,10 @@ class ForgotPasswordPage extends StatelessWidget {
                       style: FigmaTypography.heading28,
                     ),
                     const SizedBox(height: 10),
-                    const Text(
+                    Text(
                       'Nhập email để nhận hướng dẫn đặt lại mật khẩu.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: FigmaTypography.body14.copyWith(
                         color: FigmaColors.effectNeutral02,
                         height: 1.5,
                       ),
@@ -49,7 +50,11 @@ class ForgotPasswordPage extends StatelessWidget {
                     AppTextField(
                       keyboardType: TextInputType.emailAddress,
                       label: 'Email',
-                      prefixIcon: const Icon(Icons.email_outlined),
+                      prefixIcon: const SvgIcon(
+                        'assets/icons/email.svg',
+                        size: 20,
+                        color: FigmaColors.effectNeutral02,
+                      ),
                       validator: (value) => (value?.contains('@') ?? false)
                           ? null
                           : 'Vui lòng nhập email hợp lệ.',

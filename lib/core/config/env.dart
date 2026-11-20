@@ -1,7 +1,7 @@
 import 'package:messenger_app/core/network/api_error_code.dart';
 import 'package:messenger_app/core/network/api_exception.dart';
 
-// Các giá trị này lấy từ file env/dev.env khi chạy app
+// Các giá trị này lấy từ file .env.dev khi chạy app
 class Env {
   static const String appEnv = String.fromEnvironment(
     'APP_ENV',

@@ -16,10 +16,7 @@ class DiscoverPage extends StatelessWidget {
         const SizedBox(height: 16),
         const AppTextField(isSearch: true, hint: 'Search communities'),
         const SizedBox(height: 24),
-        const Text(
-          'Suggested',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-        ),
+        Text('Suggested', style: FigmaTypography.body14SemiBold),
         const SizedBox(height: 12),
         CommunityCard(
           title: 'Football fans',

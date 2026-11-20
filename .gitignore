@@ -43,8 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-# File cấu hình môi trường
-env/*.env
+# File cấu hình môi trường (chứa địa chỉ máy chủ thật)
+.env*
 
 # File sinh tự động, không đẩy lên git
 .metadata

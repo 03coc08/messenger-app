@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:messenger_app/widgets/svg_icon.dart';
 
 /// Ô nhập dùng chung cho toàn app.
 /// Ô thường và ô tìm kiếm chỉ khác nhau ở tham số truyền vào.
@@ -67,7 +68,10 @@ class AppTextField extends StatelessWidget {
         hintText: hint ?? (isSearch ? 'Search' : null),
         labelText: label,
         prefixIcon:
-            prefixIcon ?? (isSearch ? const Icon(Icons.search_rounded) : null),
+            prefixIcon ??
+            (isSearch
+                ? const SvgIcon('assets/icons/search.svg', size: 20)
+                : null),
         suffixIcon: suffixIcon,
         filled: fillColor != null ? true : null,
         fillColor: fillColor,

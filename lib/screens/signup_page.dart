@@ -3,6 +3,7 @@ import 'package:messenger_app/theme/figma_colors.dart';
 import 'package:messenger_app/theme/figma_typography.dart';
 import 'package:messenger_app/widgets/app_text_field.dart';
 import 'package:messenger_app/core/utils/app_snackbar.dart';
+import 'package:messenger_app/widgets/svg_icon.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -45,10 +46,10 @@ class _SignupPageState extends State<SignupPage> {
                       style: FigmaTypography.heading28,
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Đăng ký để bắt đầu trò chuyện với bạn bè.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: FigmaTypography.body14.copyWith(
                         color: FigmaColors.effectNeutral02,
                         height: 1.5,
                       ),
@@ -56,7 +57,11 @@ class _SignupPageState extends State<SignupPage> {
                     const SizedBox(height: 26),
                     AppTextField(
                       label: 'Họ và tên',
-                      prefixIcon: const Icon(Icons.person_outline_rounded),
+                      prefixIcon: const SvgIcon(
+                        'assets/icons/user.svg',
+                        size: 20,
+                        color: FigmaColors.effectNeutral02,
+                      ),
                       validator: (value) => (value?.trim().isEmpty ?? true)
                           ? 'Vui lòng nhập họ tên.'
                           : null,
@@ -65,7 +70,11 @@ class _SignupPageState extends State<SignupPage> {
                     AppTextField(
                       keyboardType: TextInputType.emailAddress,
                       label: 'Email',
-                      prefixIcon: const Icon(Icons.email_outlined),
+                      prefixIcon: const SvgIcon(
+                        'assets/icons/email.svg',
+                        size: 20,
+                        color: FigmaColors.effectNeutral02,
+                      ),
                       validator: (value) => (value?.contains('@') ?? false)
                           ? null
                           : 'Vui lòng nhập email hợp lệ.',
@@ -75,16 +84,26 @@ class _SignupPageState extends State<SignupPage> {
                       controller: _passwordController,
                       obscureText: _obscurePassword,
                       label: 'Mật khẩu',
-                      prefixIcon: const Icon(Icons.lock_outline_rounded),
+                      prefixIcon: const SvgIcon(
+                        'assets/icons/lock.svg',
+                        size: 20,
+                        color: FigmaColors.effectNeutral02,
+                      ),
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() => _obscurePassword = !_obscurePassword);
                         },
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off_outlined
-                              : Icons.visibility_outlined,
-                        ),
+                        icon: _obscurePassword
+                            ? const SvgIcon(
+                                'assets/icons/eye_slash.svg',
+                                size: 20,
+                                color: FigmaColors.effectNeutral02,
+                              )
+                            : const SvgIcon(
+                                'assets/icons/eye.svg',
+                                size: 20,
+                                color: FigmaColors.effectNeutral02,
+                              ),
                       ),
                       validator: (value) => (value?.length ?? 0) < 6
                           ? 'Mật khẩu phải có ít nhất 6 ký tự.'
@@ -94,7 +113,11 @@ class _SignupPageState extends State<SignupPage> {
                     AppTextField(
                       obscureText: _obscurePassword,
                       label: 'Nhập lại mật khẩu',
-                      prefixIcon: const Icon(Icons.lock_outline_rounded),
+                      prefixIcon: const SvgIcon(
+                        'assets/icons/lock.svg',
+                        size: 20,
+                        color: FigmaColors.effectNeutral02,
+                      ),
                       validator: (value) => value == _passwordController.text
                           ? null
                           : 'Mật khẩu nhập lại không khớp.',

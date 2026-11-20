@@ -3,7 +3,7 @@ enum ApiErrorCode {
   noConnection('Không kết nối được tới máy chủ.'),
   invalidUrl('Địa chỉ máy chủ không hợp lệ.'),
   missingConfig(
-    'Thiếu BASE_URL. Hãy chạy với --dart-define-from-file=env/dev.env',
+    'Thiếu BASE_URL. Hãy chạy với --dart-define-from-file=.env.dev',
   ),
   htmlResponse(
     'Máy chủ trả về HTML thay vì JSON. Kiểm tra lại BASE_URL hoặc ngrok.',

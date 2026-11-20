@@ -168,6 +168,10 @@ abstract final class FigmaColors {
   static const effectBlackOpacity9 = Color(0x18000000);
   static const effectBlackOpacity13 = Color(0x21000000);
 
+  // Màu chữ trong file Typography của Figma (không thuộc collection Messenger Colors)
+  static const textPrimary = Color(0xFF141F33);
+  static const textLabel = Color(0xFF263040);
+
   // Figma không có màu cảnh báo nên tự thêm (không phải token của Figma)
   static const warning = Color(0xFFFFC83D);
 }

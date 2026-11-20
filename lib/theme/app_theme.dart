@@ -7,6 +7,7 @@ abstract final class AppTheme {
     return ThemeData(
       useMaterial3: true,
       fontFamily: FigmaTypography.fontFamilyInter,
+      textTheme: FigmaTypography.textTheme,
       colorScheme: ColorScheme.fromSeed(
         seedColor: FigmaColors.surfaceBrandPrimary02,
         brightness: Brightness.light,
@@ -35,17 +36,15 @@ abstract final class AppTheme {
   static ThemeData get dark {
     final base = ThemeData.dark(useMaterial3: true);
     return base.copyWith(
-      textTheme: base.textTheme.apply(
-        fontFamily: FigmaTypography.fontFamilyInter,
-      ),
-      primaryTextTheme: base.primaryTextTheme.apply(
-        fontFamily: FigmaTypography.fontFamilyInter,
-      ),
+      textTheme: base.textTheme.merge(FigmaTypography.textTheme),
+      primaryTextTheme: base.primaryTextTheme.merge(FigmaTypography.textTheme),
       scaffoldBackgroundColor: FigmaColors.surfaceBlack,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: FigmaColors.artworkNeutral07,
-        hintStyle: const TextStyle(color: FigmaColors.effectNeutral02),
+        hintStyle: FigmaTypography.body14.copyWith(
+          color: FigmaColors.effectNeutral02,
+        ),
         prefixIconColor: FigmaColors.effectNeutral02,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(18),
